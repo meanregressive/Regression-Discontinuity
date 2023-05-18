@@ -183,7 +183,7 @@ duplicates report X
 rdrobust Y X, h(10) kernel(uniform)
 
 * Output from regressions on both sides
-reg Y X if X<0 & X>=-10
+reg Y X if X<0 & X>=-10 // #DR: choosing bandwidth
 matrix coef_left=e(b)
 local intercept_left=coef_left[1,2]
 reg Y X if X>=0 & X<=10
@@ -192,15 +192,15 @@ local intercept_right=coef_right[1,2]
 local difference=`intercept_right'-`intercept_left'
 display "The RD estimator is `difference'"
 
-* Output from joint regression
+* Output from joint regression // #DR: to do it with one regression
 gen T_X=X*T
-reg Y X T T_X if abs(X)<=10
+reg Y X T T_X if abs(X)<=10 // #DR: coeffiecient on T is the RD estimator
 
 * Matching standard errors
 reg Y X T T_X if abs(X)<=10, robust
 rdrobust Y X, h(10) kernel(uniform) vce(hc1)
 
-* For other kernels besides uniform
+* For other kernels besides uniform // #DR: kernel weights 
 gen weights=.
 replace weights=(1-abs(X/10)) if abs(X)<10
 
@@ -214,7 +214,7 @@ local intercept_right=coef_right[1,2]
 local difference=`intercept_right'-`intercept_left'
 display "The RD estimator is `difference'"
 
-rdrobust Y X,  h(10)  
+rdrobust Y X,  h(10)  // #DR: same as regressions above with weights
 
 rdrobust Y X, kernel(triangular) p(1) h(10)  
 

@@ -33,7 +33,12 @@ scatter $y $x, xline($c, lcolor(red))
 ********************************************************************************
 
 ** Quick RD plots (default: mimicking variance)
-rdplot $y $x, c($c)
+rdplot $y $x, c($c) // #DR: smooths the y distribution; can choose bins that are
+// equal in size, but no. of obs can vary a lot between bins - 
+// mv option: mimicking variance: check recording (7:05 pm)
+// other option: 
+// 4th order polynomial: regression of yi on x2 x3 x4
+// 7:05 - 7:20 PM recording check
 
 ** Add title 
 rdplot $y $x , c($c) graph_options(title(RD Plot - Head Start) ///
@@ -42,10 +47,10 @@ rdplot $y $x , c($c) graph_options(title(RD Plot - Head Start) ///
 			    
 
 ** Evenly-spaced
-rdplot $y $x, c($c) binselect(es)
+rdplot $y $x, c($c) binselect(es) // evenly-spaced
 
 ** Quantile-spaced
-rdplot $y $x, c($c) binselect(qs)
+rdplot $y $x, c($c) binselect(qs) // quantile-spaced: equal no. of obs
 
 ** Global 2nd order polynomial
 rdplot $y $x, c($c) p(2) 
